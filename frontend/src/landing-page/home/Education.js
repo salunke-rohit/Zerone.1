@@ -3,8 +3,8 @@ function Education() {
     return ( 
         <div className='container mt-5'>
             <div className='row'>
-                <div className='col-6'>
-                    <img src='media/education.svg' style={{width:"70%"}}/>
+                <div className='col-6'> 
+                    <img src='media/education.svg' style={{width:"70%"}} alt='z'/>
                 </div>
                 <div className='col-6 mt-5 '>
                     <h1 className='fs-2' >Free and open markert education</h1>

@@ -6,7 +6,7 @@ function Footer() {
     ">
       <div className="row mt-5">
         <div className="col">
-          <img src="media/logo5.png" style={{ width: "50%" }} />
+          <img src="media/logo5.png" style={{ width: "50%" }} alt="t"/>
           <p style={{color:"#454747"}}>&copy; 2010 - 2024, Not Zerone Ltd. All rights reserved.</p>
         </div>
         <div className="col">

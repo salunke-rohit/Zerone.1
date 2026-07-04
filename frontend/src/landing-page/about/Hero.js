@@ -35,7 +35,7 @@ function Hero() {
                         technology that is fast, transparent, and easy to use.
                     </p>
                     <p>
-                        At <a>Zerone</a> we are committed to innovation, security, and customer satisfaction. <br/>
+                        At <a href='#'>Zerone</a> we are committed to innovation, security, and customer satisfaction. <br/>
                          As technology continues to shape the future of finance, we strive to build a  <br/>
                          platform that empowers users to grow their wealth, <br/>
                          achieve their financial goals, and invest confidently in the stock market.

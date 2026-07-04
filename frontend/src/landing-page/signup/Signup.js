@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3002';
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || 'http://localhost:3002').replace(/\/+$/, '');
+const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL || 'https://your-dashboard-url.vercel.app';
 
 function Signup() {
   const [isLogin, setIsLogin] = useState(true);
@@ -25,6 +26,10 @@ function Signup() {
         body: JSON.stringify(payload),
       });
       const data = await response.json();
+      if (isLogin && data.success) {
+        window.location.href = DASHBOARD_URL;
+        return;
+      }
       setMessage(data.message || 'Request completed.');
     } catch (error) {
       setMessage('Network error. Please make sure the backend is running.');
