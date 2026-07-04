@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios, { all } from "axios";
+import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:3002";
 
 // import { holdings } from "../data/data";
 
@@ -8,8 +10,7 @@ const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3002/allHoldings").then((res) => {
-      // console.log(res.data);
+    axios.get(`${API_BASE_URL}/allHoldings`).then((res) => {
       setAllHoldings(res.data);
     });
   }, []);

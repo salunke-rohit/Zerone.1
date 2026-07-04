@@ -7,9 +7,9 @@ const cors = require("cors");
 const dns = require("dns");
 
 const { HoldingsModel } = require("./model/HoldingsModel");
-
 const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
+const { UserModel } = require("./model/UserModel");
 
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
@@ -18,6 +18,45 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.post("/signup", async (req, res) => {
+  const { name, email, password } = req.body || {};
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ success: false, message: "Name, email and password are required." });
+  }
+
+  try {
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ success: false, message: "User already exists." });
+    }
+
+    const user = await UserModel.create({ name, email, password });
+    return res.status(201).json({ success: true, message: "Signup successful.", user: { name: user.name, email: user.email } });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Signup failed.", error: error.message });
+  }
+});
+
+app.post("/signin", async (req, res) => {
+  const { email, password } = req.body || {};
+
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: "Email and password are required." });
+  }
+
+  try {
+    const user = await UserModel.findOne({ email, password });
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Invalid credentials." });
+    }
+
+    return res.status(200).json({ success: true, message: "Signin successful.", user: { name: user.name, email: user.email } });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Signin failed.", error: error.message });
+  }
+});
 
 // app.get("/addHoldings", async (req, res) => {
 //   let tempHoldings = [
@@ -187,6 +226,10 @@ app.use(bodyParser.json());
 //   });
 //   res.send("Done!");
 // });
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ ok: true, message: "Backend is running." });
+});
 
 app.get("/allHoldings", async (req, res) => {
   let allHoldings = await HoldingsModel.find({});
