@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:3002";
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "http://localhost:3002").replace(/\/+$/, "");
 
 // import { holdings } from "../data/data";
 

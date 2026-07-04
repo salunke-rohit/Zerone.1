@@ -3,7 +3,7 @@ import axios from "axios";
 import "./BuyActionWindow.css";
 import GeneralContext from "./GeneralContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:3002";
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "http://localhost:3002").replace(/\/+$/, "");
 
 const BuyActionWindow = ({ uid }) => {
   const generalContext = useContext(GeneralContext);
