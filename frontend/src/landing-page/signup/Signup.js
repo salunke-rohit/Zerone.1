@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || 'http://localhost:3002').replace(/\/+$/, '');
-const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL || 'https://your-dashboard-url.vercel.app';
+const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL || 'https://zerone-1-git-main-salunke-rohits-projects.vercel.app';
 
 function Signup() {
   const [isLogin, setIsLogin] = useState(true);
