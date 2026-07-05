@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || '/api').replace(/\/+$/, '');
-const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL || 'https://zerone-1-git-main-salunke-rohits-projects.vercel.app';
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || 'https://zerone-1-auu4.onrender.com').replace(/\/+$/, '');
+const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL || (typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : '');
 
 function Signup() {
   const [isLogin, setIsLogin] = useState(true);
@@ -42,14 +42,12 @@ function Signup() {
         return;
       }
 
-      if (isLogin && data && data.success) {
-        window.location.href = DASHBOARD_URL;
-        return;
-      }
-
-      // For signup, also redirect to dashboard on success (auto-login UX)
-      if (!isLogin && data && data.success) {
-        window.location.href = DASHBOARD_URL;
+      if (data && data.success) {
+        if (DASHBOARD_URL) {
+          window.location.assign(DASHBOARD_URL);
+        } else {
+          setMessage('Signed in successfully. Please set REACT_APP_DASHBOARD_URL in your deployment settings to redirect to the dashboard app.');
+        }
         return;
       }
 
