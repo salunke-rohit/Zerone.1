@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || 'http://localhost:3002').replace(/\/+$/, '');
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || 'https://zerone-1-auu4.onrender.com').replace(/\/+$/, '');
 const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL || 'https://zerone-1-git-main-salunke-rohits-projects.vercel.app';
 
 function Signup() {
@@ -18,9 +18,10 @@ function Signup() {
 
     const endpoint = isLogin ? '/signin' : '/signup';
     const payload = isLogin ? { email, password } : { name, email, password };
+    const requestUrl = API_BASE_URL + endpoint;
 
     try {
-      const response = await fetch(API_BASE_URL + endpoint, {
+      const response = await fetch(requestUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -32,7 +33,10 @@ function Signup() {
       }
       setMessage(data.message || 'Request completed.');
     } catch (error) {
-      setMessage('Network error. Please make sure the backend is running.');
+      console.error('Signup request failed:', error, requestUrl);
+      setMessage(
+        `Network error. Please make sure the backend is running and REACT_APP_API_BASE_URL is set correctly. Request URL: ${requestUrl}`
+      );
     } finally {
       setLoading(false);
     }

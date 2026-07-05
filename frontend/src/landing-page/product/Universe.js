@@ -35,15 +35,6 @@ function Universe() {
 
         <div className="col-md-4 p-3 mt-5">
           <img
-            src="media/zerodhaFundhouse.png"
-            alt="Fundhouse"
-            style={{ width: "40%" }}
-          />
-          <p className="text-muted fs-22 mt-2" >Our asset management venture <br/> that is creating simple and transparent index <br/>funds to help you save for your goals.</p>
-        </div>
-
-        <div className="col-md-4 p-3 mt-5">
-          <img
             src="media/dittoLogo.png"
             alt="Ditto"
             style={{ width: "25%" }}
