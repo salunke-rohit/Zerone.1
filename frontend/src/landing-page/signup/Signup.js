@@ -26,12 +26,34 @@ function Signup() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const data = await response.json();
-      if (isLogin && data.success) {
+
+      // Try to parse JSON if available, otherwise build a fallback
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (parseErr) {
+        // not a JSON response
+        data = null;
+      }
+
+      if (!response.ok) {
+        const errMsg = (data && data.message) || `Request failed with status ${response.status}`;
+        setMessage(errMsg);
+        return;
+      }
+
+      if (isLogin && data && data.success) {
         window.location.href = DASHBOARD_URL;
         return;
       }
-      setMessage(data.message || 'Request completed.');
+
+      // For signup, also redirect to dashboard on success (auto-login UX)
+      if (!isLogin && data && data.success) {
+        window.location.href = DASHBOARD_URL;
+        return;
+      }
+
+      setMessage((data && data.message) || 'Request completed.');
     } catch (error) {
       console.error('Signup request failed:', error, requestUrl);
       setMessage(
