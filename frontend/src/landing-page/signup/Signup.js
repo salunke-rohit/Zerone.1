@@ -21,6 +21,8 @@ function Signup() {
     const requestUrl = API_BASE_URL + endpoint;
 
     try {
+      // Log request details to help diagnose network failures in deployed builds
+      console.log('Signup request ->', { requestUrl, payload });
       const response = await fetch(requestUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -37,8 +39,17 @@ function Signup() {
       }
 
       if (!response.ok) {
+        // Try to include raw text when JSON isn't available — helps diagnose 400/500 HTML responses
+        let rawText = '';
+        try {
+          rawText = await response.text();
+        } catch (tErr) {
+          rawText = '';
+        }
         const errMsg = (data && data.message) || `Request failed with status ${response.status}`;
-        setMessage(errMsg);
+        const detailed = rawText ? `${errMsg} — response body: ${rawText}` : errMsg;
+        console.error('Signup failed:', { status: response.status, data, rawText });
+        setMessage(detailed);
         return;
       }
 
@@ -54,8 +65,9 @@ function Signup() {
       setMessage((data && data.message) || 'Request completed.');
     } catch (error) {
       console.error('Signup request failed:', error, requestUrl);
+      // Show the actual error message from the fetch exception to help debugging (CORS/connectivity/etc.)
       setMessage(
-        `Network error. Please make sure the backend is running and REACT_APP_API_BASE_URL is set correctly. Request URL: ${requestUrl}`
+        `Network error: ${error && error.message ? error.message : 'unknown'}. Ensure backend is running and REACT_APP_API_BASE_URL is correct. Request URL: ${requestUrl}`
       );
     } finally {
       setLoading(false);
