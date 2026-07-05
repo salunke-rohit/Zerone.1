@@ -50,6 +50,7 @@ function ProductPage() {
       /> 
       <p style={{textAlign:"center" , marginTop: "50px" , marginBottom:"50px"}}>Want to know more about our technology stack? Check out the Zerone.tech blog.</p>
       <Universe />
+      <br/>
     </>
   );
 }
