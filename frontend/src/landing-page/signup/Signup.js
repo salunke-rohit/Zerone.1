@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || 'https://zerone-1-auu4.onrender.com').replace(/\/+$/, '');
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || '/api').replace(/\/+$/, '');
 const DASHBOARD_URL = process.env.REACT_APP_DASHBOARD_URL || 'https://zerone-1-git-main-salunke-rohits-projects.vercel.app';
 
 function Signup() {

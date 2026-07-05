@@ -17,7 +17,10 @@ const uri = process.env.MONGO_URL;
 const app = express();
 
 app.use(cors());
+app.options("*", cors());
 app.use(bodyParser.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
 
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body || {};
