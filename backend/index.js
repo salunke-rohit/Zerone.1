@@ -10,6 +10,7 @@ const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
 const { UserModel } = require("./model/UserModel");
+const { seedDemoUser } = require("./seedDemoUser");
 
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
@@ -291,6 +292,13 @@ const server = app.listen(PORT, () => {
     try {
       await mongoose.connect(uri, opts);
       console.log("DB started!");
+      if (process.env.AUTO_SEED_DEMO === 'true') {
+        try {
+          await seedDemoUser();
+        } catch (seedErr) {
+          console.error('Auto-seed failed:', seedErr && seedErr.message ? seedErr.message : seedErr);
+        }
+      }
       return;
     } catch (err) {
       console.error("Primary MongoDB connection failed:", err.message || err);
