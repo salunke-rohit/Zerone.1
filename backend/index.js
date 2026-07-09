@@ -23,6 +23,23 @@ app.use(bodyParser.json());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
+// Support requests that include an `/api` prefix (some deployments route frontend calls to `/api/*`).
+// - GET /api -> returns a small health/info response so visiting /api in a browser is useful for debugging.
+// - /api/signup -> rewrites to /signup so existing route handlers continue to work.
+app.use((req, res, next) => {
+  try {
+    if (req.path === '/api' || req.path === '/api/') {
+      return res.status(200).json({ ok: true, message: 'API root. Available endpoints: /signup, /signin, /health, /allHoldings, /allPositions, /newOrder' });
+    }
+    if (req.path.startsWith('/api/')) {
+      req.url = req.url.replace(/^\/api/, '');
+    }
+  } catch (e) {
+    // if anything goes wrong, continue without rewriting
+  }
+  return next();
+});
+
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body || {};
 
